@@ -2,29 +2,34 @@ import { build } from "vite";
 import { resolve, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 import tailwindcss from "tailwindcss";
-import { createHtmlPlugin } from "vite-plugin-html";
+import { createHtmlPlugin as html } from "vite-plugin-html";
+import { viteStaticCopy as copy } from "vite-plugin-static-copy";
 import { AppInfo } from "../app-info.js";
 
 interface BuildOptions {
+  ipaOrApkPath: string;
   outDir: string;
   info: AppInfo;
 }
 
-export const buildSite = async ({ outDir, info }: BuildOptions) => {
-  console.log(resolveProjectFile("index.html"));
-  return await build({
+export const buildSite = async ({ outDir, info, ipaOrApkPath }: BuildOptions) =>
+  build({
     root: resolveProjectFile(),
     logLevel: "info",
     build: {
+      outDir,
       emptyOutDir: true,
-      rollupOptions: {
-        output: {
-          dir: outDir,
-        },
-      },
     },
     plugins: [
-      createHtmlPlugin({
+      copy({
+        targets: [
+          {
+            src: ipaOrApkPath,
+            dest: "artifacts",
+          },
+        ],
+      }),
+      html({
         minify: true,
         inject: {
           data: info,
@@ -44,7 +49,6 @@ export const buildSite = async ({ outDir, info }: BuildOptions) => {
       },
     },
   });
-};
 
 const resolveProjectFile = (...components: string[]) =>
   resolve(dirname(fileURLToPath(import.meta.url)), "./project", ...components);

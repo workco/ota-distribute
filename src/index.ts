@@ -11,11 +11,10 @@ const program = new Command()
   .requiredOption("-o, --out-dir <path>", "Output directory")
   .action(async (path, { outDir }) => {
     const info = await parseAppInfo(path);
-
     // Create the output directory if it does not exist
     await mkdir(outDir, { recursive: true });
 
-    await buildSite({ outDir, info });
+    await buildSite({ outDir, info, ipaOrApkPath: path });
   });
 
 program.parse(process.argv);
