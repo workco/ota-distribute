@@ -12,11 +12,11 @@ interface AppInfoBase {
   build: string;
 }
 
-interface AppleAppInfo extends AppInfoBase {
+export interface AppleAppInfo extends AppInfoBase {
   type: "apple";
 }
 
-interface AndroidAppInfo extends AppInfoBase {
+export interface AndroidAppInfo extends AppInfoBase {
   type: "android";
 }
 
