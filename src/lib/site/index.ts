@@ -47,6 +47,7 @@ export const buildSite = async ({
 
   await build({
     root: resolveProjectFile(),
+    base: "",
     build: {
       outDir,
       emptyOutDir: true,
@@ -57,7 +58,7 @@ export const buildSite = async ({
         targets: [
           {
             src: ipaOrApkPath,
-            dest: buildArtifact,
+            dest: resolveArtifact(),
           },
         ],
       }),
@@ -66,7 +67,7 @@ export const buildSite = async ({
         inject: {
           data: {
             ...info,
-            baseUrl,
+            buildUrl,
           },
         },
       }),

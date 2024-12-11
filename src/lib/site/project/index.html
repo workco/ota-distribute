@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><%- name %> v<%- version %> (<%- build %>)</title>
-    <link rel="stylesheet" href="index.css">
+    <link rel="stylesheet" href="./index.css">
 </head>
 
 <body>
@@ -22,7 +22,7 @@
                 </div>
                 <div class="text-center">
                     <a class="block rounded-md bg-sky-500 py-4 text-xl leading-6 text-white shadow-sm hover:bg-sky-400"
-                        href="#">Install</a>
+                        href="<%- buildUrl %>">Install</a>
                 </div>
                 <% if (typeof(description) !== 'undefined') { %>
                 <hr class="border-gray-300/50" />

@@ -8,7 +8,7 @@ export const createS3Copier = (destinationFolder: string) => {
   const bucket = getEnvRequired("S3_BUCKET");
   const region = getEnvRequired("AWS_REGION");
   const baseUrl = urlJoin(
-    `https://${bucket}.s3-website-${region}.amazonaws.com`,
+    `https://${bucket}.s3.${region}.amazonaws.com`,
     destinationFolder,
   );
 
