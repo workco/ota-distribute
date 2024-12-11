@@ -2231,6 +2231,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/mime-types@npm:^2":
+  version: 2.1.4
+  resolution: "@types/mime-types@npm:2.1.4"
+  checksum: 10c0/a10d57881d14a053556b3d09292de467968d965b0a06d06732c748da39b3aa569270b5b9f32529fd0e9ac1e5f3b91abb894f5b1996373254a65cb87903c86622
+  languageName: node
+  linkType: hard
+
 "@types/node@npm:^22.10.2":
   version: 22.10.2
   resolution: "@types/node@npm:22.10.2"
@@ -5015,6 +5022,7 @@ __metadata:
     "@commander-js/extra-typings": "npm:^12.1.0"
     "@eslint/js": "npm:^9.16.0"
     "@tsconfig/node22": "npm:^22.0.0"
+    "@types/mime-types": "npm:^2"
     "@types/node": "npm:^22.10.2"
     app-info-parser: "npm:^1.1.6"
     autoprefixer: "npm:^10.4.20"
@@ -5022,6 +5030,7 @@ __metadata:
     eslint: "npm:^9.16.0"
     eslint-config-prettier: "npm:^9.1.0"
     eslint-plugin-prettier: "npm:^5.2.1"
+    mime-types: "npm:^2.1.35"
     postcss: "npm:^8.4.49"
     prettier: "npm:^3.4.2"
     s3-sync-client: "npm:^4.3.1"

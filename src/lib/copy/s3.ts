@@ -1,6 +1,7 @@
-import { S3Client } from "@aws-sdk/client-s3";
+import { PutObjectCommandInput, S3Client } from "@aws-sdk/client-s3";
 import { S3SyncClient } from "s3-sync-client";
 import { getEnvRequired } from "../env.js";
+import mime from "mime-types";
 import urlJoin from "url-join";
 
 export const createS3Copier = (destinationFolder: string) => {
@@ -25,6 +26,14 @@ export const createS3Copier = (destinationFolder: string) => {
             {
               del: true,
               deleteExcluded: true,
+              commandInput: (
+                syncCommandInput: Partial<PutObjectCommandInput>,
+              ) => ({
+                ...syncCommandInput,
+                ContentType: syncCommandInput.Key
+                  ? mime.lookup(syncCommandInput.Key) || undefined
+                  : undefined,
+              }),
             },
           )
         ))
