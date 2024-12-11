@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%- name %> v<%- version %> (<%- build %>)</title>
+    <link rel="stylesheet" href="index.css">
+</head>
+
+<body>
+    <div class="min-h-screen bg-gray-50 sm:py-12">
+        <div
+            class="bg-white px-6 pb-8 pt-10 shadow-xl ring-1 ring-gray-900/5 sm:mx-auto sm:max-w-lg sm:rounded-lg sm:px-10">
+            <div class="divide-y divide-gray-300/50">
+                <div class="flex flex-col items-center text-base text-gray-900">
+                    <img class="aspect-square w-full max-w-32 rounded-3xl bg-gray-100" src="<%- icon %>" />
+                    <div class="py-8 text-center">
+                        <h1 class="text-3xl"><%- name %></h1>
+                        <p class="text-gray-400">Version <%- version %>, Build <%- build %></p>
+                    </div>
+                </div>
+                <!-- <p class="pt-8 text-base text-gray-900">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam
+                    sollicitudin blandit eros sed porta. Fusce in condimentum enim, at sodales mauris. Ut dignissim ante
+                    vitae turpis lacinia iaculis. Sed leo augue, scelerisque ac nibh ac, luctus bibendum dolor. Ut vitae
+                    dolor ut elit commodo tempor. Vivamus non eleifend neque. Lorem ipsum dolor sit amet, consectetur
+                    adipiscing elit. Sed euismod viverra imperdiet. Praesent in felis ac lorem mattis cursus. In
+                    sollicitudin est nec augue feugiat, a hendrerit velit ultricies. Sed ut leo mauris. In accumsan
+                    risus vitae sapien imperdiet rhoncus.</p> -->
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
