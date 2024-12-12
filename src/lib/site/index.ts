@@ -1,13 +1,14 @@
 import { build, PluginOption, UserConfig } from "vite";
 import { resolve, dirname, join, basename } from "node:path";
 import { fileURLToPath } from "node:url";
-import tailwindcss from "tailwindcss";
+import tailwind from "tailwindcss";
 import { createHtmlPlugin as html } from "vite-plugin-html";
 import { viteStaticCopy as copy } from "vite-plugin-static-copy";
 import { AppInfo } from "../app-info.js";
 import { createManifest } from "./manifest.js";
 import urlJoin from "url-join";
 import file from "./plugin/generate-file/index.js";
+import autoprefixer from "autoprefixer";
 
 interface BuildOptions extends Pick<UserConfig, "customLogger"> {
   ipaOrApkPath: string;
@@ -73,12 +74,13 @@ export const buildSite = async ({
     css: {
       postcss: {
         plugins: [
-          tailwindcss({
+          tailwind({
             content: {
               files: [resolveProjectFile("index.html")],
               relative: false,
             },
           }),
+          autoprefixer(),
         ],
       },
     },
