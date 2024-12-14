@@ -6,6 +6,8 @@ import { withDir } from "tmp-promise";
 import { createS3Copier } from "./lib/copy/s3.js";
 import { Copier } from "./lib/copy/index.js";
 import { createFolderCopier } from "./lib/copy/folder.js";
+import { logProgress } from "./lib/terminal.js";
+import kleur from "kleur";
 
 const program = new Command()
   .name(packageJson.name)
@@ -20,7 +22,10 @@ const program = new Command()
       .makeOptionMandatory(),
   )
   .action(async (path, { destination }) => {
-    const info = await parseAppInfo(path);
+    const info = await logProgress("Parsing build archive", parseAppInfo(path));
+    console.log(
+      `➤ Detected ${kleur.bold().blue(info.type)} app: ${kleur.bold().green(info.name)} ${kleur.gray(`(${info.id})`)}`,
+    );
 
     const { baseUrl, copy }: Copier = (() => {
       switch (destination) {
@@ -33,8 +38,23 @@ const program = new Command()
 
     await withDir(
       async ({ path: outDir }) => {
-        await buildSite({ outDir, info, ipaOrApkPath: path, baseUrl });
-        await copy(outDir);
+        await logProgress(
+          "Building static site",
+          buildSite({
+            outDir,
+            info,
+            ipaOrApkPath: path,
+            baseUrl,
+          }),
+        );
+        console.log(
+          `➤ Built static site to temp folder: ${kleur.gray(outDir)}`,
+        );
+
+        await logProgress(`Copying site to ${destination}`, copy(outDir));
+        console.log(
+          `➤ ${kleur.bold().green("Success!")} Visit ${kleur.blue(baseUrl)}`,
+        );
       },
       {
         unsafeCleanup: true,

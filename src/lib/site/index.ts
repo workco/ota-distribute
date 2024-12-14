@@ -1,4 +1,4 @@
-import { build, PluginOption } from "vite";
+import { build, PluginOption, UserConfig } from "vite";
 import { resolve, dirname, join, basename } from "node:path";
 import { fileURLToPath } from "node:url";
 import tailwindcss from "tailwindcss";
@@ -9,7 +9,7 @@ import { createManifest } from "./manifest.js";
 import urlJoin from "url-join";
 import file from "./plugin/generate-file/index.js";
 
-interface BuildOptions {
+interface BuildOptions extends Pick<UserConfig, "customLogger"> {
   ipaOrApkPath: string;
   outDir: string;
   info: AppInfo;
@@ -21,6 +21,7 @@ export const buildSite = async ({
   info,
   ipaOrApkPath,
   baseUrl,
+  ...rest
 }: BuildOptions) => {
   const extraPlugins: PluginOption[] = [];
 
@@ -41,12 +42,14 @@ export const buildSite = async ({
   }
 
   await build({
+    ...rest,
     root: resolveProjectFile(),
     base: "",
     build: {
       outDir,
       emptyOutDir: true,
     },
+    logLevel: rest.customLogger ? "info" : "silent",
     plugins: [
       ...extraPlugins,
       copy({
