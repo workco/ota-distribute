@@ -4,10 +4,10 @@ import { fileURLToPath } from "node:url";
 import tailwindcss from "tailwindcss";
 import { createHtmlPlugin as html } from "vite-plugin-html";
 import { viteStaticCopy as copy } from "vite-plugin-static-copy";
-import file from "vite-plugin-generate-file";
 import { AppInfo } from "../app-info.js";
 import { createManifest } from "./manifest.js";
 import urlJoin from "url-join";
+import file from "./plugin/generate-file/index.js";
 
 interface BuildOptions {
   ipaOrApkPath: string;
@@ -32,13 +32,8 @@ export const buildSite = async ({
 
     extraPlugins.push(
       file({
-        type: "template",
-        template: "./plaintext.ejs",
+        content: createManifest({ info, ipaUrl: buildUrl }),
         output: manifestArtifact,
-        data: {
-          // pass buildUrl before we change it to the itms protocol url
-          content: createManifest({ info, ipaUrl: buildUrl }),
-        },
       }),
     );
 
