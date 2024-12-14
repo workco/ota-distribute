@@ -1,5 +1,5 @@
 import { Command, Option } from "@commander-js/extra-typings";
-import packageJson from "../package.json";
+import packageJson from "../package.json" assert { type: "json" };
 import { parseAppInfo } from "./lib/app-info.js";
 import { buildSite } from "./lib/site/index.js";
 import { withDir } from "tmp-promise";
