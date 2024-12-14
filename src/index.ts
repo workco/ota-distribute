@@ -5,6 +5,7 @@ import { buildSite } from "./lib/site/index.js";
 import { withDir } from "tmp-promise";
 import { createS3Copier } from "./lib/copy/s3.js";
 import { Copier } from "./lib/copy/index.js";
+import { createFolderCopier } from "./lib/copy/folder.js";
 
 const program = new Command()
   .name(packageJson.name)
@@ -15,7 +16,7 @@ const program = new Command()
       "-d, --destination <destination>",
       "Destination for the built website",
     )
-      .choices(["s3"] as const)
+      .choices(["s3", "folder"] as const)
       .makeOptionMandatory(),
   )
   .action(async (path, { destination }) => {
@@ -25,6 +26,8 @@ const program = new Command()
       switch (destination) {
         case "s3":
           return createS3Copier(info.id);
+        case "folder":
+          return createFolderCopier();
       }
     })();
 

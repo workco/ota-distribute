@@ -3,8 +3,9 @@ import { S3SyncClient } from "s3-sync-client";
 import { getEnvRequired } from "../env.js";
 import mime from "mime-types";
 import urlJoin from "url-join";
+import { Copier } from "./index.js";
 
-export const createS3Copier = (destinationFolder: string) => {
+export const createS3Copier = (destinationFolder: string): Copier => {
   const bucket = getEnvRequired("S3_BUCKET");
   const region = getEnvRequired("AWS_REGION");
   const baseUrl = urlJoin(
