@@ -23,9 +23,8 @@
 </head>
 
 <body>
-    <div class="min-h-screen bg-gray-50 sm:py-12">
-        <div
-            class="bg-white px-6 pb-8 pt-10 shadow-xl ring-1 ring-gray-900/5 sm:mx-auto sm:max-w-lg sm:rounded-lg sm:px-10">
+    <div class="min-h-screen bg-gray-50 sm:py-12 flex flex-col justify-between gap-12">
+        <div class="bg-white px-6 pb-8 pt-10 shadow-xl ring-1 ring-gray-900/5 w-full sm:mx-auto sm:max-w-lg sm:rounded-lg sm:px-10">
             <div class="flex flex-col gap-8">
                 <div class="flex flex-col items-center gap-8 text-base text-gray-900">
                     <img class="aspect-square w-full max-w-32 rounded-3xl bg-gray-100" src="<%- icon %>" />
@@ -35,14 +34,19 @@
                     </div>
                 </div>
                 <div class="text-center">
-                    <a class="block rounded-md bg-sky-500 py-4 text-xl leading-6 text-white shadow-sm hover:bg-sky-400"
+                    <a class="block bg-black py-4 text-xl leading-6 text-white shadow-sm hover:opacity-80 rounded-full"
                         href="<%- buildUrl %>">Install</a>
                 </div>
                 <% if (typeof(description) !=='undefined' ) { %>
                     <hr class="border-gray-300/50" />
                     <p class="text-base text-gray-900"><%- description %></p>
-                    <% } %>
+                <% } %>
             </div>
+        </div>
+        <div>
+            <a href="https://work.co" target="_blank">
+                <img class="mx-auto size-16" src="assets/workco.svg" />
+            </a>
         </div>
     </div>
 </body>
