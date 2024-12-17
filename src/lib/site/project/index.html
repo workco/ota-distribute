@@ -4,8 +4,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
     <title><%- name %> v<%- version %> (<%- build %>)</title>
-    <link rel="stylesheet" href="./index.css">
+
+    <meta name="robots" content="noindex, nofollow">
+
+    <link href="assets/favicon.ico" rel="shortcut icon">
+    <link href="assets/apple-touch-icon.png" rel="apple-touch-icon" sizes="180x180">
+    <link href="assets/favicon-32x32.png" rel="icon" sizes="32x32" type="image/png">
+    <link href="assets/favicon-16x16.png" rel="icon" sizes="16x16" type="image/png">
+    <link href="assets/safari-pinned-tab.svg" rel="mask-icon" color="#5bbad5">
+    <meta content="#da532c" name="msapplication-TileColor">
+    <meta content="width=device-width,initial-scale=1" name="viewport">
+    <meta content="#000000" name="theme-color">
+    <meta content="yes" name="apple-mobile-web-app-capable">
+
+    <link rel="stylesheet" href="assets/index.css">
 </head>
 
 <body>
@@ -24,10 +38,10 @@
                     <a class="block rounded-md bg-sky-500 py-4 text-xl leading-6 text-white shadow-sm hover:bg-sky-400"
                         href="<%- buildUrl %>">Install</a>
                 </div>
-                <% if (typeof(description) !== 'undefined') { %>
-                <hr class="border-gray-300/50" />
-                <p class="text-base text-gray-900"><%- description %></p>
-                <% } %>
+                <% if (typeof(description) !=='undefined' ) { %>
+                    <hr class="border-gray-300/50" />
+                    <p class="text-base text-gray-900"><%- description %></p>
+                    <% } %>
             </div>
         </div>
     </div>
