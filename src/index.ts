@@ -23,58 +23,72 @@ const program = new Command()
   )
   .option("-b, --base-url <baseUrl>", "Base URL for the website")
   .option("-o, --out-dir <outDir>", "Output directory for the built website")
-  .action(async (path, { destination, baseUrl: inputBaseUrl, outDir }) => {
-    const info = await logProgress("Parsing build archive", parseAppInfo(path));
-    console.log(
-      `➤ Detected ${kleur.bold().blue(info.type)} app: ${kleur.bold().green(info.name)} ${kleur.gray(`(${info.id})`)}`,
-    );
+  .option("-ar, --aws-region <awsRegion>", "AWS region for the S3 bucket")
+  .option("-ab, --aws-bucket <bucket>", "S3 bucket name")
+  .action(
+    async (
+      path,
+      { destination, baseUrl: inputBaseUrl, outDir, awsBucket, awsRegion },
+    ) => {
+      const info = await logProgress(
+        "Parsing build archive",
+        parseAppInfo(path),
+      );
+      console.log(
+        `➤ Detected ${kleur.bold().blue(info.type)} app: ${kleur.bold().green(info.name)} ${kleur.gray(`(${info.id})`)}`,
+      );
 
-    const { baseUrl, copy }: Copier = (() => {
-      switch (destination) {
-        case "s3":
-          return createS3Copier({
-            destinationFolder: info.id,
-            baseUrl: inputBaseUrl,
-          });
-        case "folder":
-          return createFolderCopier({
-            baseUrl: inputBaseUrl,
-            outDir,
-          });
+      const { baseUrl, copy }: Copier = (() => {
+        switch (destination) {
+          case "s3":
+            return createS3Copier({
+              destinationFolder: info.id,
+              baseUrl: inputBaseUrl,
+              bucket: awsBucket,
+              region: awsRegion,
+            });
+          case "folder":
+            return createFolderCopier({
+              baseUrl: inputBaseUrl,
+              outDir,
+            });
+        }
+      })();
+
+      if (!baseUrl) {
+        throw new Error(
+          "-b / --base-url is required for the chosen destination",
+        );
       }
-    })();
 
-    if (!baseUrl) {
-      throw new Error("-b / --base-url is required for the chosen destination");
-    }
+      await withDir(
+        async ({ path: temporaryBuildPath }) => {
+          await logProgress(
+            "Building static site",
+            buildSite({
+              outDir: temporaryBuildPath,
+              info,
+              ipaOrApkPath: path,
+              baseUrl,
+            }),
+          );
+          console.log(
+            `➤ Built static site to temp folder: ${kleur.gray(temporaryBuildPath)}`,
+          );
 
-    await withDir(
-      async ({ path: temporaryBuildPath }) => {
-        await logProgress(
-          "Building static site",
-          buildSite({
-            outDir: temporaryBuildPath,
-            info,
-            ipaOrApkPath: path,
-            baseUrl,
-          }),
-        );
-        console.log(
-          `➤ Built static site to temp folder: ${kleur.gray(temporaryBuildPath)}`,
-        );
-
-        await logProgress(
-          `Copying site to ${destination}`,
-          copy(temporaryBuildPath),
-        );
-        console.log(
-          `➤ ${kleur.bold().green("Success!")} Visit ${kleur.blue(baseUrl)}`,
-        );
-      },
-      {
-        unsafeCleanup: true,
-      },
-    );
-  });
+          await logProgress(
+            `Copying site to ${destination}`,
+            copy(temporaryBuildPath),
+          );
+          console.log(
+            `➤ ${kleur.bold().green("Success!")} Visit ${kleur.blue(baseUrl)}`,
+          );
+        },
+        {
+          unsafeCleanup: true,
+        },
+      );
+    },
+  );
 
 program.parse(process.argv);
