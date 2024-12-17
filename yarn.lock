@@ -4316,6 +4316,8 @@ __metadata:
     vite: "npm:^6.0.3"
     vite-plugin-html: "npm:^3.2.2"
     vite-plugin-static-copy: "npm:^2.2.0"
+  bin:
+    ota-distribute: ./bin/ota-distribute
   languageName: unknown
   linkType: soft
 

@@ -91,4 +91,4 @@ const program = new Command()
     },
   );
 
-program.parse(process.argv);
+export default () => program.parse(process.argv);

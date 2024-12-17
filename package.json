@@ -24,9 +24,9 @@
   },
   "type": "module",
   "scripts": {
-    "lint": "eslint .",
-    "cli": "tsx ./src/index.ts"
+    "lint": "eslint ."
   },
+  "bin": "./bin/ota-distribute",
   "devDependencies": {
     "@eslint/js": "^9.16.0",
     "@tsconfig/node22": "^22.0.0",
