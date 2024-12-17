@@ -30,7 +30,7 @@ export const createS3Copier = ({
     destinationFolder,
   );
 
-  const client = new S3Client();
+  const client = new S3Client({ region });
   const { sync } = new S3SyncClient({ client });
 
   return {
