@@ -1,4 +1,4 @@
 export interface Copier {
-  baseUrl: string;
+  baseUrl?: string;
   copy(dir: string): Promise<void>;
 }

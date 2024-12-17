@@ -21,7 +21,9 @@ const program = new Command()
       .choices(["s3", "folder"] as const)
       .makeOptionMandatory(),
   )
-  .action(async (path, { destination }) => {
+  .option("-b, --base-url <baseUrl>", "Base URL for the website")
+  .option("-o, --out-dir <outDir>", "Output directory for the built website")
+  .action(async (path, { destination, baseUrl: inputBaseUrl, outDir }) => {
     const info = await logProgress("Parsing build archive", parseAppInfo(path));
     console.log(
       `➤ Detected ${kleur.bold().blue(info.type)} app: ${kleur.bold().green(info.name)} ${kleur.gray(`(${info.id})`)}`,
@@ -30,28 +32,41 @@ const program = new Command()
     const { baseUrl, copy }: Copier = (() => {
       switch (destination) {
         case "s3":
-          return createS3Copier(info.id);
+          return createS3Copier({
+            destinationFolder: info.id,
+            baseUrl: inputBaseUrl,
+          });
         case "folder":
-          return createFolderCopier();
+          return createFolderCopier({
+            baseUrl: inputBaseUrl,
+            outDir,
+          });
       }
     })();
 
+    if (!baseUrl) {
+      throw new Error("-b / --base-url is required for the chosen destination");
+    }
+
     await withDir(
-      async ({ path: outDir }) => {
+      async ({ path: temporaryBuildPath }) => {
         await logProgress(
           "Building static site",
           buildSite({
-            outDir,
+            outDir: temporaryBuildPath,
             info,
             ipaOrApkPath: path,
             baseUrl,
           }),
         );
         console.log(
-          `➤ Built static site to temp folder: ${kleur.gray(outDir)}`,
+          `➤ Built static site to temp folder: ${kleur.gray(temporaryBuildPath)}`,
         );
 
-        await logProgress(`Copying site to ${destination}`, copy(outDir));
+        await logProgress(
+          `Copying site to ${destination}`,
+          copy(temporaryBuildPath),
+        );
         console.log(
           `➤ ${kleur.bold().green("Success!")} Visit ${kleur.blue(baseUrl)}`,
         );

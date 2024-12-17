@@ -1,14 +1,22 @@
 import { Copier } from "./index.js";
 import fs from "node:fs/promises";
-import { getEnvRequired } from "../env.js";
 
-export const createFolderCopier = (): Copier => {
-  return {
-    baseUrl: getEnvRequired("BASE_URL"),
-    copy: async (dir) => {
-      const destination = getEnvRequired("OUTPUT_FOLDER");
-      await fs.mkdir(destination, { recursive: true });
-      await fs.cp(dir, destination, { recursive: true });
-    },
-  };
-};
+interface FolderCopierOptions {
+  baseUrl?: string;
+  outDir?: string;
+}
+
+export const createFolderCopier = ({
+  baseUrl,
+  outDir,
+}: FolderCopierOptions): Copier => ({
+  baseUrl,
+  copy: async (dir) => {
+    if (!outDir) {
+      throw new Error("outDir is required for the folder destination");
+    }
+    await fs.rm(outDir, { recursive: true, force: true });
+    await fs.mkdir(outDir, { recursive: true });
+    await fs.cp(dir, outDir, { recursive: true });
+  },
+});

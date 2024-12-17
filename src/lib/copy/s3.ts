@@ -5,11 +5,19 @@ import mime from "mime-types";
 import urlJoin from "url-join";
 import { Copier } from "./index.js";
 
-export const createS3Copier = (destinationFolder: string): Copier => {
+interface S3CopierOptions {
+  baseUrl?: string;
+  destinationFolder: string;
+}
+
+export const createS3Copier = ({
+  baseUrl: inputBaseUrl,
+  destinationFolder,
+}: S3CopierOptions): Copier => {
   const bucket = getEnvRequired("S3_BUCKET");
   const region = getEnvRequired("AWS_REGION");
   const baseUrl = urlJoin(
-    `https://${bucket}.s3.${region}.amazonaws.com`,
+    inputBaseUrl ?? `https://${bucket}.s3.${region}.amazonaws.com`,
     destinationFolder,
   );
 
