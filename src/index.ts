@@ -12,6 +12,7 @@ import kleur from "kleur";
 const program = new Command()
   .name(packageJson.name)
   .version(packageJson.version)
+  .description(`© ${new Date().getFullYear()} Work & Co. All rights reserved.`)
   .argument("<path>", "Path to the .ipa or .apk file to distribute")
   .addOption(
     new Option(
