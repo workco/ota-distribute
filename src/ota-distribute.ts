@@ -1,5 +1,6 @@
+#!/usr/bin/env node
+
 import { Command, Option } from "@commander-js/extra-typings";
-import packageJson from "../package.json" assert { type: "json" };
 import { parseAppInfo } from "./lib/app-info.js";
 import { buildSite } from "./lib/site/index.js";
 import { withDir } from "tmp-promise";
@@ -10,8 +11,7 @@ import { logProgress } from "./lib/terminal.js";
 import kleur from "kleur";
 
 const program = new Command()
-  .name(packageJson.name)
-  .version(packageJson.version)
+  .name("ota-distribute")
   .description(`© ${new Date().getFullYear()} Work & Co. All rights reserved.`)
   .argument("<path>", "Path to the .ipa or .apk file to distribute")
   .addOption(
@@ -92,4 +92,4 @@ const program = new Command()
     },
   );
 
-export default () => program.parse(process.argv);
+program.parse(process.argv);
