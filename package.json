@@ -24,7 +24,7 @@
   "type": "module",
   "scripts": {
     "lint": "eslint .",
-    "build": "tsup-node"
+    "prepare": "tsup-node"
   },
   "bin": "./dist/ota-distribute.js",
   "main": "./dist/ota-distribute.js",
