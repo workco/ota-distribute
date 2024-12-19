@@ -24,7 +24,7 @@
   "type": "module",
   "scripts": {
     "lint": "eslint .",
-    "build": "rimraf dist && esbuild ./src/**/*.* --loader:.ico=copy --loader:.png=copy --loader:.svg=copy --loader:.html=copy --platform=node --outdir=dist --packages=external --format=esm"
+    "build": "tsup-node"
   },
   "bin": "./dist/ota-distribute.js",
   "main": "./dist/ota-distribute.js",
@@ -33,12 +33,11 @@
     "@tsconfig/node22": "^22.0.0",
     "@types/mime-types": "^2",
     "@types/node": "^22.10.2",
-    "esbuild": "^0.24.0",
     "eslint": "^9.16.0",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-prettier": "^5.2.1",
     "prettier": "^3.4.2",
-    "rimraf": "^6.0.1",
+    "tsup": "^8.3.5",
     "typescript": "^5.7.2",
     "typescript-eslint": "^8.18.0"
   },
@@ -51,5 +50,28 @@
     "name": "Nick Lee",
     "email": "nick.lee@work.co",
     "url": "https://work.co"
+  },
+  "tsup": {
+    "splitting": false,
+    "entry": [
+      "src/**/*"
+    ],
+    "clean": true,
+    "platform": "node",
+    "format": [
+      "esm"
+    ],
+    "external": [
+      "*"
+    ],
+    "outDir": "dist",
+    "loader": {
+      ".ico": "copy",
+      ".png": "copy",
+      ".svg": "copy",
+      ".html": "copy"
+    },
+    "bundle": false,
+    "treeshake": true
   }
 }
