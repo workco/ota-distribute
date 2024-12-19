@@ -24,8 +24,13 @@ const program = new Command()
   )
   .option("-b, --base-url <baseUrl>", "Base URL for the website")
   .option("-o, --out-dir <outDir>", "Output directory for the built website")
-  .option("-ar, --aws-region <awsRegion>", "AWS region for the S3 bucket")
   .option("-ab, --aws-bucket <bucket>", "S3 bucket name")
+  .addOption(
+    new Option(
+      "-ar, --aws-region <awsRegion>",
+      "AWS region for the S3 bucket",
+    ).env("AWS_REGION"),
+  )
   .action(
     async (
       path,
