@@ -40,5 +40,15 @@
     "rimraf": "^6.0.1",
     "typescript": "^5.7.2",
     "typescript-eslint": "^8.18.0"
+  },
+  "repository": "workco/ota-distribute",
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
+  },
+  "license": "UNLICENSED",
+  "author": {
+    "name": "Nick Lee",
+    "email": "nick.lee@work.co",
+    "url": "https://work.co"
   }
 }
