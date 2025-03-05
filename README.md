@@ -92,4 +92,4 @@ npx ota-distribute ./path/to/myApp.apk \
 
 ## License
 
-© 2024 Work & Co. All rights reserved.
+© 2025 Accenture. License: [Apache License, Version 2.0](./LICENSE)

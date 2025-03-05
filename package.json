@@ -45,7 +45,7 @@
   "publishConfig": {
     "registry": "https://npm.pkg.github.com"
   },
-  "license": "UNLICENSED",
+  "license": "Apache-2.0",
   "author": {
     "name": "Nick Lee",
     "email": "nick.lee@work.co",
